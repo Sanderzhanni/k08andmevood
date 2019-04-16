@@ -4,6 +4,7 @@ import java.io.*;
 
 public class program{
 
+  //Determines the chord notes
   private static String chord(String s) {
     if(s.equals("F#7")){
       return "F#, A, C#, E | ";
@@ -20,6 +21,7 @@ public class program{
     }
   }//ends chord function
 
+  //Reverses the notes to a chord 
   private static String unChord(String s) {
     if(s.equals("F#, A, C#, E | ")){
       return "F#7";
@@ -40,10 +42,11 @@ public class program{
 
     ArrayList<String> chords = new ArrayList<>();
 
+    //Sisestame andmed listi
     Scanner str = new Scanner(new FileReader("chords.txt"));
 
       while (str.hasNext()) {
-        chords.add(chord(str.nextLine()));
+        chords.add(chord(str.nextLine()));//converts chords symbols to notes
       //  System.out.println(chords);
       }
 
@@ -51,15 +54,16 @@ public class program{
 
       PrintWriter pw = new PrintWriter(new FileWriter("notes.txt"));
 
+    //Andmetöötlus
       chords
         .stream()
         .sorted()
-        .map(String::toLowerCase)
-        .filter(c -> c.startsWith("f"))
-        .map(String::toUpperCase)
-        .peek(c -> System.out.println("Chord " +unChord(c) +" notes are: " + c + "\n"))
-        .collect(Collectors.toList())
-        .forEach(pw::println);
+        .map(String::toLowerCase)//lowercase notes
+        .filter(c -> c.startsWith("f"))//filters chords that start with the 'f' note
+        .map(String::toUpperCase)//upparcase notes 
+        .peek(c -> System.out.println("Chord " +unChord(c) +" notes are: " + c + "\n"))//prints the original chord with notes
+        .collect(Collectors.toList())//collect to list
+        .forEach(pw::println);//writes them to a file
 
       pw.close();
 
